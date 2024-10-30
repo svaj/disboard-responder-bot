@@ -2,8 +2,9 @@ from discord.ext import commands, tasks
 
 import discord
 
-class DisboardResponder(discord.Client):
+class DisboardResponder(commands.Cog):
 
+    @commands.Cog.listener()
     async def on_message(self, message):
         if message.author == self.user:
             return
@@ -14,10 +15,10 @@ class DisboardResponder(discord.Client):
         print("content: ",message.content)
         if message.content.startswith('@Bump Reminder'):
             await message.channel.send('/bump')
-        
-async def on_ready(self):
-        print(f'Logged in as {self.user} (ID: {self.user.id})')
-        print('------')
+
+    @commands.Cog.listener()
+    async def on_ready(self):
+            print(f'Logged in and ready')
 
 async def setup(bot) -> None:
     intents = discord.Intents.default()
