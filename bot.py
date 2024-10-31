@@ -19,7 +19,7 @@ async def on_message(message):
     print("channel: ",message.channel)
     print("content: ",message.content)
     channel = message.channel
-    if message.content == '@Bump Reminder':
+    if message.content == '<@&1294655182423986176>':
         commands = await message.channel.application_commands()
         print("commands",commands)
         for command in commands:
