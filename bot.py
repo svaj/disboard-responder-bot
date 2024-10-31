@@ -13,7 +13,7 @@ import platform
 import random
 import sys
 
-import aiosqlite
+# import aiosqlite
 import discord
 from discord.ext import commands, tasks
 from discord.ext.commands import Context
@@ -60,7 +60,7 @@ intents.message_content = True
 intents.presences = True
 """
 
-intents = discord.Intents.default()
+# intents = discord.Intents.default()
 
 """
 Uncomment this if you want to use prefix (normal) commands.
@@ -68,7 +68,7 @@ It is recommended to use slash commands and therefore not use prefix commands.
 
 If you want to use prefix commands, make sure to also enable the intent below in the Discord developer portal.
 """
-intents.message_content = True
+# intents.message_content = True
 
 # Setup both of the loggers
 
@@ -141,15 +141,15 @@ class DiscordBot(commands.Bot):
         self.config = config
         self.database = None
 
-    async def init_db(self) -> None:
-        async with aiosqlite.connect(
-            f"{os.path.realpath(os.path.dirname(__file__))}/database/database.db"
-        ) as db:
-            with open(
-                f"{os.path.realpath(os.path.dirname(__file__))}/database/schema.sql"
-            ) as file:
-                await db.executescript(file.read())
-            await db.commit()
+    # async def init_db(self) -> None:
+    #     async with aiosqlite.connect(
+    #         f"{os.path.realpath(os.path.dirname(__file__))}/database/database.db"
+    #     ) as db:
+    #         with open(
+    #             f"{os.path.realpath(os.path.dirname(__file__))}/database/schema.sql"
+    #         ) as file:
+    #             await db.executescript(file.read())
+    #         await db.commit()
 
     async def load_cogs(self) -> None:
         """
@@ -167,20 +167,20 @@ class DiscordBot(commands.Bot):
                         f"Failed to load extension {extension}\n{exception}"
                     )
 
-    @tasks.loop(minutes=1.0)
-    async def status_task(self) -> None:
-        """
-        Setup the game status task of the bot.
-        """
-        statuses = ["with you!", "with Krypton!", "with humans!"]
-        await self.change_presence(activity=discord.Game(random.choice(statuses)))
+    # @tasks.loop(minutes=1.0)
+    # async def status_task(self) -> None:
+    #     """
+    #     Setup the game status task of the bot.
+    #     """
+    #     statuses = ["with you!", "with Krypton!", "with humans!"]
+    #     await self.change_presence(activity=discord.Game(random.choice(statuses)))
 
-    @status_task.before_loop
-    async def before_status_task(self) -> None:
-        """
-        Before starting the status changing task, we make sure the bot is ready
-        """
-        await self.wait_until_ready()
+    # @status_task.before_loop
+    # async def before_status_task(self) -> None:
+    #     """
+    #     Before starting the status changing task, we make sure the bot is ready
+    #     """
+    #     await self.wait_until_ready()
 
     async def setup_hook(self) -> None:
         """
@@ -193,14 +193,14 @@ class DiscordBot(commands.Bot):
             f"Running on: {platform.system()} {platform.release()} ({os.name})"
         )
         self.logger.info("-------------------")
-        await self.init_db()
+        # await self.init_db()
         await self.load_cogs()
         self.status_task.start()
-        self.database = DatabaseManager(
-            connection=await aiosqlite.connect(
-                f"{os.path.realpath(os.path.dirname(__file__))}/database/database.db"
-            )
-        )
+        # self.database = DatabaseManager(
+        #     connection=await aiosqlite.connect(
+        #         f"{os.path.realpath(os.path.dirname(__file__))}/database/database.db"
+        #     )
+        # )
 
     async def on_message(self, message: discord.Message) -> None:
         """
