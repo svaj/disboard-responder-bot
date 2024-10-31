@@ -289,5 +289,5 @@ class DiscordBot(commands.Bot):
 
 load_dotenv()
 
-bot = DiscordBot()
+bot = DiscordBot(self_bot=True)
 bot.run(os.getenv("TOKEN"))
